@@ -2,25 +2,24 @@ function [g, e] = numeric(net, loss, xn, yn)
 
 d = 10^-6;
 
-% y is output from the last layer of the net
-% x{l} is the input matrix to layer l
-% a{l} is the activation matrix in layer l
+w1 = weights(net);
+
 [y, x, a] = cnn(xn, net);
+[e, ew] = loss(yn, y);
 
-L = size(net, 1);
-ey = cell(L, 1);
+g = zeros(size(w1));
 
-[e, ey{L}] = loss(yn, y);
+for i = 1:size(w1)
+    di = zeros(size(w1));
+    di(i) = d;
+    
+    wTemp = w1 + di;
+    net = setWeights(wTemp, net);
+    [y, ~, ~] = cnn(xn, net);
+    [eTemp, ~] = loss(yn, y);
 
-for l=L:-1:1
-    curNet = net(l);
-    curKernels = curNet.kernel;
-    for j = size(curKernels, 3):-1:1
-        curKernel = curKernels(:, :, j);
-        
-    end
+    g(i) = (eTemp - e)/d;
 end
 
-g = ew(:);
 
 end

@@ -9,7 +9,7 @@ ey = zeros(size(y));
 for i = 1:size(ey, 1)
     di = zeros(size(y));
     di(i) = d;
-    yd = y + d;
+    yd = y + di;
     ey(i) = (norm(yn - yd)^2 - e) / d;
 end
 
