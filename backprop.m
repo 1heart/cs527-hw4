@@ -13,7 +13,7 @@ for l=L:-1:1
     
     ew = [];
     ex = [];
-    for j = size(curKernel, 3):-1:1
+    for j = size(curKernel, 3):-1:1 
         ea = ey(:, j) .* dhda(:, j);
         p = size(a{l}, 1);
         exComponent = convn(dilute(ea, p), reverse(curKernel(:, :, j)), 'full');
