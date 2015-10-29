@@ -13,9 +13,11 @@ for l=L:-1:1
     
     ew = [];
     ex = [];
-    for j = size(curKernel, 3):-1:1 
+    for j = size(curKernel, 3):-1:1
+        m = size(x{l}, 1);
+        n = size(curKernel(j), 1);
+        p = m - n + 1;
         ea = ey(:, j) .* dhda(:, j);
-        p = size(a{l}, 1);
         exComponent = convn(dilute(ea, p), reverse(curKernel(:, :, j)), 'full');
         if isempty(ex)
             ex = exComponent;
@@ -23,8 +25,7 @@ for l=L:-1:1
             ex = ex + exComponent;
         end
         convResult = convn(dilute(ea, p), reverse(x{l}), 'full');
-        m = size(convResult, 1) - p + 1;
-        ek = middle(convResult, m + 1 - p);
+        ek = middle(convResult, n);
         eb = sum(ea);
         ew(:, j) = [ek(:); eb];
     end
