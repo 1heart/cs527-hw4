@@ -6,12 +6,13 @@ L = size(net, 1);
 
 [e, ey] = loss(yn, y);
 
+ew = [];
+
 for l=L:-1:1
     curNet = net(l);
     curKernel = curNet.kernel;
     [~, dhda] = curNet.h(a{l});
     
-    ew = [];
     ex = [];
     for j = size(curKernel, 3):-1:1
         m = size(x{l}, 1);
@@ -30,11 +31,11 @@ for l=L:-1:1
         convResult = convn(dilute(ea, p), reverse(x{l}), 'full');
         ek = middle(convResult, n);
         eb = sum(ea);
-        ew(:, j) = [ek(:); eb];
+        ew = [ew;ek(:);eb];
     end
     ey = ex;
 end
 
-g = ew(:);
+g = ew;
 
 end
