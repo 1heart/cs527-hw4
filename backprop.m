@@ -12,25 +12,25 @@ ey = cell(L, 1);
 
 [e, ey{L}] = loss(yn, y);
 
-for l=L:-1:1
+for l=L:-1:2
     curNet = net(l);
     curKernel = curNet.kernel;
-    [yL, dhda] = curNet.h(a{l});
+    [~, dhda] = curNet.h(a{l});
     curEy = ey{l};
     
-    ea = [];
     ex = [];
     ew = [];
     for j = size(curKernel, 3):-1:1
-        ea(:, j) = curEy(:, j) .* dhda(:, j);
+        ea = curEy(:, j) .* dhda(:, j);
         p = size(a{l}, 1);
+        n = size(x{l}, 1) + 1 - p;
         if isempty(ex)
-            ex = convn(delta(ea(:, j), p), reverse(curKernel(:, :, j)), 'full'); 
+            ex = convn(dilute(ea, p), reverse(curKernel(:, :, j)), 'full'); 
         else
-            ex = ex + convn(delta(ea(:, j), p), reverse(curKernel(:, :, j)), 'full'); 
+            ex = ex + convn(dilute(ea, p), reverse(curKernel(:, :, j)), 'full'); 
         end
-        ek = middle(convn(delta(ea(:, j), p), reverse(x{l}), 'full'), n);
-        eb = sum(ea(:, j));
+        ek = middle(convn(dilute(ea, p), reverse(x{l}), 'full'), n);
+        eb = sum(ea);
         ew(:, j) = [ek(:); eb];
     end
     ey{l - 1} = ex;

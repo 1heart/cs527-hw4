@@ -1,6 +1,6 @@
 function [y, x, a] = cnn(x1, net)
 
-ok(net)
+ok(net);
 
 x = cell(size(net, 1), 1);
 a = cell(size(net, 1), 1);
