@@ -1,8 +1,6 @@
 function [y, x, a] = cnn(x1, net)
 
-if ~ok(net)
-    error('Net is not valid');
-end
+ok(net)
 
 x = cell(size(net, 1), 1);
 a = cell(size(net, 1), 1);
