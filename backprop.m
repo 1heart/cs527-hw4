@@ -6,7 +6,7 @@ L = size(net, 1);
 
 [e, ey] = loss(yn, y);
 
-ew = [];
+g = [];
 
 for l=L:-1:1
     curNet = net(l);
@@ -31,11 +31,9 @@ for l=L:-1:1
         convResult = convn(dilute(ea, p), reverse(x{l}), 'full');
         ek = middle(convResult, n);
         eb = sum(ea);
-        ew = [ew;ek(:);eb];
+        g = [g;ek(:);eb];
     end
     ey = ex;
 end
-
-g = ew;
 
 end
