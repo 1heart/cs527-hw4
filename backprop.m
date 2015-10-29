@@ -15,10 +15,13 @@ for l=L:-1:1
     ex = [];
     for j = size(curKernel, 3):-1:1
         m = size(x{l}, 1);
-        n = size(curKernel(j), 1);
+        n = size(curKernel, 1);
         p = m - n + 1;
+        
         ea = ey(:, j) .* dhda(:, j);
-        exComponent = convn(dilute(ea, p), reverse(curKernel(:, :, j)), 'full');
+        dea = dilute(ea, p);
+        
+        exComponent = convn(dea, reverse(curKernel(:, :, j)), 'full');
         if isempty(ex)
             ex = exComponent;
         else
